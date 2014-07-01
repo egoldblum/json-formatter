@@ -262,18 +262,31 @@
       var depth = d._depth;
 
       d3.select(jfMeta).html(d._path + " " + d.value);
-      var metaPressed = modKey(d3.event);
-      var selector = "[key='" + key + "']";
-      if (metaPressed) {
-        selector += "[depth='" + depth + "']";
+
+      var selector,
+          selection;
+
+      // ctrl shows all instances of this key at this depth
+      if (d3.event.ctrlKey) {
+        selector = "[key='" + key + "'][depth='" + depth + "']";
       }
-      var selection = d3.selectAll(selector);
 
-      selection.classed("active", true);
+      // meta shows all instances of this key at all depths
+      if (d3.event.metaKey) {
+        selector = "[key='" + key + "']";
+      }
 
+      if (selector) {
+        selection = d3.selectAll(selector).classed("active", true);
+      }
+
+      d3.select(this).classed("active", true);
       d3.select(this).on("mouseout", function (d, i) {
         d3.select(this).on("mouseout", null);
-        selection.classed("active", false);
+        if (selection) {
+          selection.classed("active", false);
+        }
+        d3.select(this).classed("active", false);
       });
     }
 
