@@ -290,12 +290,6 @@
       });
     }
 
-    function computeTextRotation(d) {
-      var angle = x(d.x + d.dx / 2) - Math.PI / 2;
-      return angle / Math.PI * 180;
-    }
-
-
     var metadata = {};
 
     var mapped = traverse(JSON.parse(j)).map(function () {
